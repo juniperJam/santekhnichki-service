@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сантехнички — Сервис будущего</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.12.0/dist/css/suggestions.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            --primary: #1e1b4b;
+            --accent: #4f46e5;
+            --accent-glow: rgba(79, 70, 229, 0.4);
+            --success: #10b981;
+            --text-secondary: #475569;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Manrope', sans-serif; }
+        
+        body { 
+            /* АНИМИРОВАННЫЙ ФОН */
+            background: linear-gradient(-45deg, #8EC5FC, #E0C3FC, #a8edea, #fed6e3);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh; color: var(--primary); padding-bottom: 5rem; overflow-x: hidden;
+        }
+
+        /* Ключевые кадры анимации */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 1.5rem; }
+        .hidden { display: none !important; }
+
+        /* HEADER */
+        header { 
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 1.5rem; margin-top: 1rem; margin-bottom: 3rem;
+            background: var(--glass-bg); backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border); border-radius: 24px; box-shadow: var(--glass-shadow);
+        }
+        .logo-area { display: flex; align-items: center; gap: 0.8rem; cursor: pointer; transition: transform 0.2s; }
+        .logo-area:hover { transform: scale(1.02); }
+        .logo-icon { width: 44px; height: 44px; background: var(--primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; box-shadow: 0 4px 12px rgba(30, 27, 75, 0.3); }
+        .logo-text { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.04em; }
+
+        nav { display: flex; gap: 0.5rem; background: rgba(0,0,0,0.05); padding: 5px; border-radius: 16px; }
+        .nav-btn { background: transparent; border: none; padding: 0.7rem 1.5rem; border-radius: 12px; cursor: pointer; font-weight: 600; color: var(--text-secondary); transition: 0.3s; }
+        .nav-btn.active { background: white; color: var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+
+        /* CARDS */
+        .glass-card {
+            background: var(--glass-bg); backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border); border-radius: 32px; padding: 3rem;
+            box-shadow: var(--glass-shadow); max-width: 650px; margin: 0 auto; animation: floatUp 0.6s ease-out;
+        }
+        h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.03em; line-height: 1.2; }
+        .subtext { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem; }
+
+        /* FORMS */
+        .input-group { margin-bottom: 1.5rem; position: relative; }
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        
+        label { position: absolute; top: -10px; left: 16px; background: white; padding: 0 6px; font-size: 0.75rem; font-weight: 700; color: var(--accent); border-radius: 4px; z-index: 2; }
+        input, textarea, select { width: 100%; padding: 1.2rem; border-radius: 16px; border: 2px solid transparent; background: rgba(255,255,255,0.6); font-size: 1rem; font-weight: 500; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+        input:focus, textarea:focus, select:focus { background: white; border-color: var(--accent); outline: none; box-shadow: 0 0 0 4px var(--accent-glow); }
+
+        .btn-primary { width: 100%; padding: 1.2rem; background: var(--primary); color: white; border: none; border-radius: 20px; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px -5px rgba(30, 27, 75, 0.5); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 30px -5px rgba(30, 27, 75, 0.6); }
+
+        /* CATALOG */
+        .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; animation: fadeIn 0.8s; }
+        .pro-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(10px); border-radius: 24px; padding: 2rem; display: flex; flex-direction: column; align-items: center; text-align: center; transition: 0.4s; border: 1px solid white; }
+        .pro-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px rgba(79, 70, 229, 0.15); }
+        .pro-avatar { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; border: 4px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .spec-badge { background: linear-gradient(135deg, #e0e7ff 0%, #fae8ff 100%); color: var(--accent); font-weight: 700; font-size: 0.8rem; padding: 6px 12px; border-radius: 30px; margin-bottom: 0.8rem; }
+        .price-tag { font-size: 1.4rem; font-weight: 800; color: var(--primary); margin: 1rem 0; }
+
+        /* MODALS */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(30, 27, 75, 0.2); backdrop-filter: blur(16px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.4s; }
+        .modal-overlay.open { opacity: 1; pointer-events: auto; }
+        .modal-content { background: white; width: 95%; max-width: 500px; border-radius: 32px; padding: 2.5rem; box-shadow: 0 40px 60px -20px rgba(0,0,0,0.2); transform: translateY(50px) scale(0.9); transition: 0.4s; max-height: 90vh; overflow-y: auto; position: relative; }
+        .modal-overlay.open .modal-content { transform: translateY(0) scale(1); }
+        .close-btn { position: absolute; top: 1.5rem; right: 1.5rem; width: 36px; height: 36px; border-radius: 50%; background: #f1f5f9; border: none; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .close-btn:hover { background: #e2e8f0; transform: rotate(90deg); }
+
+        /* ORDERS */
+        .order-card { background: white; border-radius: 20px; padding: 1.5rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-left: 6px solid var(--accent); animation: slideIn 0.5s forwards; opacity: 0; transform: translateX(-20px); }
+
+        .btn-icon { background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 5px; transition: 0.2s; border-radius: 8px; }
+        .btn-icon:hover { background: #f1f5f9; }
+
+        @keyframes floatUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(79, 70, 229, 0); } 100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); } }
+        .suggestions-wrapper { z-index: 9999 !important; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <div class="logo-area" onclick="goHome()">
+                <div class="logo-icon">🔧</div>
+                <div class="logo-text">Сантехнички</div>
+            </div>
+            <nav>
+                <button class="nav-btn active" id="btn-home" onclick="goHome()">Главная</button>
+                <button class="nav-btn" id="btn-cat" onclick="goCatalog()">Каталог</button>
+            </nav>
+        </header>
+
+        <!-- VIEW: HOME -->
+        <div id="view-home">
+            <div id="step-form" class="glass-card">
+                <div style="text-align: center;">
+                    <h2>Сломалась сантехника?</h2>
+                    <p class="subtext">Опишите проблему, укажите адрес, и профи придут на помощь</p>
+                </div>
+                <form onsubmit="handleGeneralSearch(event)">
+                    <div class="row-2">
+                        <div class="input-group"><label>Ваше имя</label><input type="text" id="g_name" required></div>
+                        <div class="input-group"><label>Телефон</label><input type="tel" id="g_phone" class="phone-mask" required></div>
+                    </div>
+                    <div class="input-group"><label>Адрес выезда</label><input type="text" id="g_address" class="address-input" placeholder="Начните вводить адрес..." required></div>
+                    <div class="input-group"><label>Что случилось?</label><textarea id="g_desc" rows="3" required></textarea></div>
+                    <div class="row-2">
+                        <div class="input-group"><label>Дата</label><input type="date" id="g_date" required></div>
+                        <div class="input-group"><label>Время</label><input type="time" id="g_time" required></div>
+                    </div>
+                    <button type="submit" class="btn-primary">Найти мастера за 3 секунды</button>
+                </form>
+            </div>
+
+            <div id="step-sim" class="hidden" style="text-align: center; padding: 5rem 0;">
+                <div style="width: 80px; height: 80px; background: white; border-radius: 50%; margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; animation: pulse 1.5s infinite;">🔎</div>
+                <h2>Сканируем район...</h2>
+                <p class="subtext">Ищем мастеров рядом с вашим адресом</p>
+            </div>
+
+            <div id="step-offers" class="hidden" style="max-width: 650px; margin: 0 auto;">
+                <h2 style="text-align: center; margin-bottom: 2rem;">🎉 Найдено 2 мастера!</h2>
+                <div id="offersList"></div>
+            </div>
+            
+            <div style="margin-top: 4rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                <h3 style="margin-bottom: 1rem; margin-left: 1rem;">Мои активные заказы</h3>
+                <div id="ordersList"></div>
+            </div>
+        </div>
+
+        <!-- VIEW: CATALOG -->
+        <div id="view-catalog" class="hidden">
+            <h2 style="margin-bottom: 2rem; text-align: center;">Элита сантехники</h2>
+            <div class="catalog-grid" id="catalogGrid"></div>
+        </div>
+    </div>
+
+    <!-- MODAL 1: PROFILE -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('profileModal')">✕</button>
+            <div style="text-align: center;">
+                <img src="" id="p_avatar" style="width: 120px; height: 120px; border-radius: 50%; border: 4px solid #f1f5f9; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+                <h2 id="p_name" style="margin-top: 1rem; font-size: 1.8rem;"></h2>
+                <div id="p_spec" class="spec-badge" style="display: inline-block;"></div>
+                <p id="p_slogan" style="font-style: italic; color: #64748b; margin-top: 1rem; font-size: 1.1rem;"></p>
+            </div>
+            <div style="background: #f8fafc; border-radius: 20px; padding: 1.5rem; margin-top: 2rem;">
+                <h4 style="margin-bottom: 1rem; color: var(--primary);">Прайс-лист</h4>
+                <div id="p_services" style="display: flex; flex-direction: column; gap: 0.8rem;"></div>
+            </div>
+            <button class="btn-primary" style="margin-top: 2rem;" onclick="openDirectOrder()">Вызвать мастера</button>
+        </div>
+    </div>
+
+    <!-- MODAL 2: DIRECT ORDER -->
+    <div class="modal-overlay" id="directOrderModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('directOrderModal')">✕</button>
+            <h2 style="margin-bottom: 1.5rem;">Оформление заказа</h2>
+            <div style="display: flex; align-items: center; gap: 1rem; background: #eff6ff; padding: 1rem; border-radius: 16px; margin-bottom: 2rem;">
+                <img id="d_avatar" src="" style="width: 50px; height: 50px; border-radius: 50%;">
+                <div><div style="font-size: 0.8rem; color: #64748b; text-transform: uppercase; font-weight: 700;">Исполнитель</div><div id="d_name" style="font-weight: 800; font-size: 1.1rem;"></div></div>
+            </div>
+            <form onsubmit="handleDirectOrder(event)">
+                <input type="hidden" id="d_pro_id"><input type="hidden" id="d_pro_price">
+                <div class="row-2"><div class="input-group"><label>Имя</label><input type="text" id="d_client" required></div><div class="input-group"><label>Телефон</label><input type="tel" id="d_phone" class="phone-mask" required></div></div>
+                <div class="input-group"><label>Адрес</label><input type="text" id="d_address" class="address-input" placeholder="Начните вводить адрес..." required></div>
+                <div class="input-group"><label>Задача</label><textarea id="d_desc" rows="2" required></textarea></div>
+                <div class="row-2"><div class="input-group"><label>Дата</label><input type="date" id="d_date" required></div><div class="input-group"><label>Время</label><input type="time" id="d_time" required></div></div>
+                <button type="submit" class="btn-primary">Подтвердить вызов</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: EDIT ORDER (NEW!) -->
+    <div class="modal-overlay" id="editOrderModal">
+        <div class="modal-content" style="max-width: 400px;">
+            <button class="close-btn" onclick="closeModal('editOrderModal')">✕</button>
+            <h2 style="margin-bottom: 1.5rem;">Изменить запись</h2>
+            <form onsubmit="submitEditOrder(event)">
+                <input type="hidden" id="e_task_id">
+                <div class="input-group"><label>Новая дата</label><input type="date" id="e_date" required></div>
+                <div class="input-group"><label>Новое время</label><input type="time" id="e_time" required></div>
+                <button type="submit" class="btn-primary">Сохранить</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.12.0/dist/js/jquery.suggestions.min.js"></script>
+
+    <script>
+        let allPros = [];
+        let currentPro = null;
+        let createdTaskId = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initPhoneMasks();
+            const today = new Date().toISOString().split('T')[0];
+            ['g_date', 'd_date', 'e_date'].forEach(id => document.getElementById(id).min = today);
+            
+            // DADATA KEY
+            const token = "827f91a73bdcba84c492c2c53aaf4dfc0a9b05c5"; 
+            $(".address-input").suggestions({ token: token, type: "ADDRESS" });
+
+            loadData();
+            loadOrders();
+        });
+
+        // --- NAV & UI ---
+        function goHome() {
+            document.getElementById('view-home').classList.remove('hidden');
+            document.getElementById('view-catalog').classList.add('hidden');
+            document.getElementById('btn-home').classList.add('active');
+            document.getElementById('btn-cat').classList.remove('active');
+        }
+        function goCatalog() {
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-catalog').classList.remove('hidden');
+            document.getElementById('btn-home').classList.remove('active');
+            document.getElementById('btn-cat').classList.add('active');
+        }
+        function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+        // --- DATA ---
+        async function loadData() {
+            const res = await fetch('/professionals');
+            allPros = await res.json();
+            document.getElementById('catalogGrid').innerHTML = allPros.map(p => `
+                <div class="pro-card">
+                    <img src="${p.photo_url}" class="pro-avatar">
+                    <div style="font-weight: 800; font-size: 1.2rem; margin-bottom: 0.2rem;">${p.name}</div>
+                    <div class="spec-badge">${p.specialty}</div>
+                    <div style="color: #64748b; font-size: 0.9rem;">⭐ ${p.rating} • ${p.experience} лет стажа</div>
+                    <div class="price-tag">от ${p.price_start} ₽</div>
+                    <button class="nav-btn" style="background: #f1f5f9; width: 100%;" onclick="openProfile(${p.id})">Подробнее</button>
+                </div>
+            `).join('');
+        }
+
+        // --- PROFILE ---
+        function openProfile(id) {
+            currentPro = allPros.find(p => p.id === id);
+            document.getElementById('p_avatar').src = currentPro.photo_url;
+            document.getElementById('p_name').textContent = currentPro.name;
+            document.getElementById('p_spec').textContent = currentPro.specialty;
+            document.getElementById('p_slogan').textContent = `"${currentPro.slogan}"`;
+            document.getElementById('p_services').innerHTML = currentPro.services.map(s => `
+                <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #e2e8f0; padding-bottom:8px;">
+                    <span style="font-weight:600; color:#334155;">${s.name}</span>
+                    <span style="font-weight:800; color:var(--accent);">${s.price} ₽</span>
+                </div>
+            `).join('');
+            document.getElementById('profileModal').classList.add('open');
+        }
+
+        // --- DIRECT ORDER ---
+        function openDirectOrder() {
+            closeModal('profileModal');
+            document.getElementById('d_pro_id').value = currentPro.id;
+            document.getElementById('d_pro_price').value = currentPro.price_start;
+            document.getElementById('d_avatar').src = currentPro.photo_url;
+            document.getElementById('d_name').textContent = currentPro.name;
+            document.getElementById('directOrderModal').classList.add('open');
+        }
+        async function handleDirectOrder(e) {
+            e.preventDefault();
+            const data = {
+                client_name: document.getElementById('d_client').value,
+                phone: document.getElementById('d_phone').value,
+                address: document.getElementById('d_address').value,
+                description: document.getElementById('d_desc').value,
+                appointment_date: document.getElementById('d_date').value,
+                appointment_time: document.getElementById('d_time').value,
+                professional_id: document.getElementById('d_pro_id').value,
+                agreed_price: document.getElementById('d_pro_price').value
+            };
+            try {
+                const res = await fetch('/tasks', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)});
+                if(!res.ok) throw new Error();
+                closeModal('directOrderModal');
+                document.querySelector('#directOrderModal form').reset();
+                alert('Заказ принят! Ждите мастера по адресу.');
+                goHome();
+                loadOrders();
+            } catch(err) { alert('Ошибка'); }
+        }
+
+        // --- GENERAL SEARCH ---
+        async function handleGeneralSearch(e) {
+            e.preventDefault();
+            const data = {
+                client_name: document.getElementById('g_name').value,
+                phone: document.getElementById('g_phone').value,
+                address: document.getElementById('g_address').value,
+                description: document.getElementById('g_desc').value,
+                appointment_date: document.getElementById('g_date').value,
+                appointment_time: document.getElementById('g_time').value
+            };
+            try {
+                const res = await fetch('/tasks', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)});
+                const task = await res.json();
+                createdTaskId = task.id;
+                document.getElementById('step-form').classList.add('hidden');
+                document.getElementById('step-sim').classList.remove('hidden');
+                setTimeout(showOffers, 3000);
+            } catch(e) { alert('Ошибка'); }
+        }
+
+        function showOffers() {
+            document.getElementById('step-sim').classList.add('hidden');
+            document.getElementById('step-offers').classList.remove('hidden');
+            const list = document.getElementById('offersList');
+            list.innerHTML = '';
+            const rnd = [...allPros].sort(() => 0.5 - Math.random()).slice(0, 2);
+            rnd.forEach(p => {
+                const price = p.price_start + Math.floor(Math.random()*500);
+                list.innerHTML += `
+                    <div style="background: white; border-radius: 20px; padding: 1.5rem; display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.05);">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <img src="${p.photo_url}" style="width: 60px; height: 60px; border-radius: 50%;">
+                            <div><div style="font-weight: 800; font-size: 1.1rem;">${p.name}</div><div style="font-size: 0.9rem; color: #64748b;">${p.specialty}</div></div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="color: var(--accent); font-weight: 800; font-size: 1.3rem;">${price} ₽</div>
+                            <button onclick="acceptOffer(${p.id}, ${price})" style="background: var(--success); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 5px;">Выбрать</button>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        async function acceptOffer(proId, price) {
+            await fetch(`/tasks/${createdTaskId}`, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ professional_id: proId, agreed_price: price, status: 'в_работе' }) });
+            document.getElementById('step-offers').classList.add('hidden');
+            document.getElementById('step-form').classList.remove('hidden');
+            document.querySelector('#step-form form').reset();
+            alert('Мастер назначен!');
+            loadOrders();
+        }
+
+        // --- ORDERS (EDIT & DELETE) ---
+        async function loadOrders() {
+            const res = await fetch('/tasks');
+            const tasks = await res.json();
+            document.getElementById('ordersList').innerHTML = tasks.length ? tasks.map(t => {
+                const name = t.professional ? t.professional.name : 'Поиск...';
+                const stColor = t.status === 'поиск_мастера' ? '#f59e0b' : '#10b981';
+                // Кнопки Изменить (✏️) и Удалить (🗑️)
+                return `
+                    <div class="order-card" style="animation-delay: ${t.id * 0.1}s">
+                        <div>
+                            <div style="font-weight: 800; font-size: 1.1rem; margin-bottom: 0.3rem;">${t.description}</div>
+                            <div style="color: #64748b; font-size: 0.9rem;">
+                                📅 ${t.appointment_date} в ${t.appointment_time} • 👤 ${name}<br>
+                                📍 ${t.address}
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-weight: 800; font-size: 1.1rem;">${t.agreed_price || '-'} ₽</div>
+                            <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: ${stColor}; margin-top: 4px;">${t.status}</div>
+                            <div style="margin-top: 10px;">
+                                <button onclick="openEditOrder(${t.id}, '${t.appointment_date}', '${t.appointment_time}')" class="btn-icon" title="Изменить время">✏️</button>
+                                <button onclick="del(${t.id})" class="btn-icon" style="color: #ef4444;" title="Удалить">🗑️</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('') : '<div style="text-align: center; color: #64748b; margin-top: 2rem;">Пока нет активных заказов</div>';
+        }
+
+        function openEditOrder(id, date, time) {
+            document.getElementById('e_task_id').value = id;
+            document.getElementById('e_date').value = date;
+            document.getElementById('e_time').value = time;
+            document.getElementById('editOrderModal').classList.add('open');
+        }
+
+        async function submitEditOrder(e) {
+            e.preventDefault();
+            const id = document.getElementById('e_task_id').value;
+            const data = {
+                appointment_date: document.getElementById('e_date').value,
+                appointment_time: document.getElementById('e_time').value
+            };
+            
+            try {
+                const res = await fetch(`/tasks/${id}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                if(!res.ok) throw new Error();
+                
+                closeModal('editOrderModal');
+                loadOrders(); // Перезагружаем список
+            } catch(err) { alert('Ошибка обновления'); }
+        }
+
+        async function del(id) { if(confirm('Отменить заявку?')) { await fetch(`/tasks/${id}`, {method:'DELETE'}); loadOrders(); }}
+
+        function initPhoneMasks() {
+            document.querySelectorAll('.phone-mask').forEach(i => i.addEventListener('input', e => {
+                let v = i.value.replace(/\D/g, ''); if(!v) {i.value=''; return;}
+                if(['7','8','9'].includes(v[0])) {
+                    if(v[0]=='9') v='7'+v; if(v[0]=='8') v='7'+v.substring(1);
+                    i.value=`+7 (${v.substring(1,4)}) ${v.substring(4,7)}-${v.substring(7,9)}-${v.substring(9,11)}`;
+                } else i.value='+'+v.substring(0,16);
+            }));
+        }
+    </script>
+</body>
+</html>

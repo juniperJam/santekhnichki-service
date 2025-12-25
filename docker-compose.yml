@@ -1,0 +1,15 @@
+
+
+services:
+  web:
+    build: .
+    container_name: plumbing_app
+    ports:
+      - "8000:8000"
+    volumes:
+      # Это чтобы база данных сохранялась на вашем компьютере,
+      # даже если вы удалите контейнер
+      - ./plumbing_data:/code/plumbing_db
+    environment:
+      # Переопределяем путь к БД для докера
+      - DATABASE_URL=sqlite+aiosqlite:///./plumbing_db/plumbing.db
